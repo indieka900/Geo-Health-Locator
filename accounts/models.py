@@ -60,7 +60,8 @@ class User(AbstractBaseUser, TrackingModel):
     username_validator = UnicodeUsernameValidator()
     Role_choices = (
         ("Administrator", "Administrator"),
-        ("Client", "Client")
+        ("Community Member", "Community Member"),
+        ("Medical Personel", "Medical Personel")
     )
     username = models.CharField(
         _('username'),
@@ -71,9 +72,15 @@ class User(AbstractBaseUser, TrackingModel):
             'unique':_("A user with that username already exists."),
         },
     )
-    full_name = models.CharField(_('full name'),
+    first_name = models.CharField(_('first name'),
                                 max_length=150, blank=True, null=True
                                 )
+    middle_name = models.CharField(_('middle name'),
+                            max_length=150, blank=True, null=True
+                            )
+    last_name = models.CharField(_('last name'),
+                            max_length=150, blank=True, null=True
+                            )
     email = models.EmailField(_('email'), unique=True, error_messages={
         'unique': ('A user with email already exists.'),
     })
@@ -130,10 +137,6 @@ class Administrator(Profile):
     last_name = models.CharField(_('last name'), max_length=50, blank=False, null=False)
     county = models.CharField(_("county"), 
                                 max_length=80, blank=True, null=True)
-    town = models.CharField(_("town"),
-                            max_length=80, blank=True, null=True)
-    estate = models.CharField(_("estate"),
-                                max_length=90, blank=True, null=True)
     
     def __str__(self):
         return self.user.username
