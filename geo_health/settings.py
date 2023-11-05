@@ -34,6 +34,11 @@ INSTALLED_APPS = [
     "geo_health_app",
 ]
 
+PHONENUMBER_DB_FORMAT = 'NATIONAL'
+PHONENUMBER_DEFUALT_REGION = 'KE'
+
+AUTH_USER_MODEL = "accounts.User"
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
