@@ -1,3 +1,4 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,14 +13,14 @@
         <!-- Header with logos -->
         <div class="row align-items-center py-3">
             <div class="col-4">
-                <img src="taita-taveta-logo.png" alt="Taita Taveta County Logo" class="img-fluid">
+                <img src="{% static 'TTC.jpeg' %}" alt="Taita Taveta County Logo" class="img-fluid">
             </div>
             <div class="col-4 text-center">
                 <h1>GeoHealth System</h1>
                 <p>for health response management system</p>
             </div>
             <div class="col-4">
-                <img src="ministry-of-health-logo.png" alt="Ministry of Health Logo" class="img-fluid float-right">
+                <img src="{% static 'kenya_moh.png' %}" alt="Ministry of Health Logo" class="img-fluid float-right">
             </div>
         </div>
         <!-- Main content with buttons -->
