@@ -86,6 +86,7 @@ class User(AbstractBaseUser, TrackingModel):
     last_name = models.CharField(_('last name'),
                             max_length=150, blank=False, null=False
                             )
+    identification = models.IntegerField(_("identification"), max_length=100, blank=False, null=False)
     email = models.EmailField(_('email'), unique=True, error_messages={
         'unique': ('A user with email already exists.'),
     })
@@ -168,3 +169,9 @@ class CommunityMember(Profile):
 
     def __str__(self):
         return self.user.username
+    
+class MedicalPersonel(Profile):
+    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False)
+    email = models.EmailField(_("email"), unique=True, error_messages={
+        'unique': ("A user with email already exists!")
+    })
