@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Member Account Creation</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with logos -->
+        <div class="row align-items-center py-3">
+            <div class="col-4">
+                <img src="taita-taveta-logo.png" alt="Taita Taveta County Logo" class="img-fluid">
+            </div>
+            <div class="col-4 text-center">
+                <h1>Community Member Account Creation</h1>
+            </div>
+            <div class="col-4">
+                <img src="ministry-of-health-logo.png" alt="Ministry of Health Logo" class="img-fluid float-right">
+            </div>
+        </div>
+        <!-- Main content with form -->
+        <div class="row justify-content-center py-5">
+            <div class="col-6">
+                <form>
+                    <div class="form-group">
+                        <label for="first-name">First Name</label>
+                        <input type="text" class="form-control" id="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="middle-name">Middle Name</label>
+                        <input type="text" class="form-control" id="middle-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">Last Name</label>
+                        <input type="text" class="form-control" id="last-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id-number">ID/Passport Number</label>
+                        <input type="text" class="form-control" id="id-number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Active Email address</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" required>
+                            <option value="">Select your gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone-number">Telephone Number</label>
+                        <input type="tel" class="form-control" id="phone-number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="county">County</label>
+                        <select class="form-control" id="county" required>
+                            <option value="">Select your county of residence</option>
+                            <option value="county-1">County 1</option>
+                            <option value="county-2">County 2</option>
+                            <option value="county-3">County 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-county">Sub-County</label>
+                        <select class="form-control" id="sub-county" required>
+                            <option value="">Select your sub-county of residence</option>
+                            <option value="sub-county-1">Sub-County 1</option>
+                            <option value="sub-county-2">Sub-County 2</option>
+                            <option value="sub-county-3">Sub-County 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="ward">Ward</label>
+                        <select class="form-control" id="ward" required>
+                            <option value="">Select your ward of residence</option>
+                            <option value="ward-1">Ward 1</option>
+                            <option value="ward-2">Ward 2</option>
+                            <option value="ward-3">Ward 3</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" class="form-control" id="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sub-location">Sub Location</label>
+                        <input type="text" class="form-control" id="sub-location" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

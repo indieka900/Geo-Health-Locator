@@ -22,19 +22,28 @@
                 <img src="ministry-of-health-logo.png" alt="Ministry of Health Logo" class="img-fluid float-right">
             </div>
         </div>
-        <!-- Main content with buttons -->
+        <!-- Main content with forms -->
         <div class="row justify-content-center py-5">
             <div class="col-6">
-                <h2>Select your category</h2>
-                <div class="btn-group-vertical w-100 my-3" role="group">
-                    <a href="/community-member/login/" class="btn btn-primary btn-lg">Community Member</a>
-                    <a href="#" class="btn btn-secondary btn-lg">Medical Personnel</a>
-                </div>
+                <h2>Community Member</h2>
+                <!-- Login form -->
+                <form class="my-3">
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <!-- Sign up link -->
+                <p>Don't have an account? <a href="/community-member/register/">Sign up</a></p>
+                <!-- Forgot password link -->
+                <p>Forgot your password? <a href="#">Reset it</a></p>
             </div>
         </div>
     </div>
 </body>
 </html>
-
-
-
