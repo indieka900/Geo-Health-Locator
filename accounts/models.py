@@ -21,7 +21,7 @@ class TrackingModel(models.Model):
 
 
 class CustomManager(BaseUserManager):
-    def create_user(self, email, username, password=None, is_active=True, is_admin=False, is_staff=False, role=""):
+    def create_user(self, email, username, password=None, is_active=True, is_admin=False, is_staff=False, role="", **others):
         if not email:
             raise ValueError("User must have an email address")
         if not password:
@@ -30,7 +30,8 @@ class CustomManager(BaseUserManager):
             raise ValueError("User must have a username")
         user_obj = self.model(
             email = self.normalize_email(email),
-            username = username
+            username = username,
+            **others
         )
         user_obj.set_password(password)
         user_obj.is_active = is_active
@@ -41,17 +42,17 @@ class CustomManager(BaseUserManager):
 
         return user_obj
 
-    def create_staff(self, email, username, password=None):
+    def create_staff(self, email, username, password=None,**others):
         user = self.create_user(
             email, username, password=password, is_active=True,
-            is_staff=False, is_admin=False, role="Administrator",
+            is_staff=False, is_admin=False, role="Administrator",**others,
         )
         return user
     
-    def create_superuser(self, email, username, password=None):
+    def create_superuser(self, email, username, password=None,**others):
         user = self.create_user(
             email, username, password=password, is_active=True,
-            is_staff=True, is_admin=True, role="Administrator"
+            is_staff=True, is_admin=True, role="Administrator",**others
         )
         return user
 
@@ -86,7 +87,7 @@ class User(AbstractBaseUser, TrackingModel):
     last_name = models.CharField(_('last name'),
                             max_length=150, blank=False, null=False
                             )
-    identification = models.IntegerField(_("identification"), blank=True, null=True)
+    identification = models.IntegerField(_("identification"), null=True)
     email = models.EmailField(_('email'), unique=True, error_messages={
         'unique': ('A user with email already exists.'),
     })
@@ -106,7 +107,7 @@ class User(AbstractBaseUser, TrackingModel):
     
     objects = CustomManager()
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username','identification']
 
     def has_perm(self, perm, obj=None):
         return True
