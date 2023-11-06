@@ -175,3 +175,6 @@ class MedicalPersonel(Profile):
     email = models.EmailField(_("email"), unique=True, error_messages={
         'unique': ("A user with email already exists!")
     })
+
+    def __str__(self):
+        return self.user.username
