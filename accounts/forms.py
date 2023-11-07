@@ -1,21 +1,21 @@
-from django import forms
-from .models import User, Profile
+# from django import forms
+# from .models import User, Profile
 
-class UserForm(forms.ModelForm):
-    class Meta:
-        model = User
-        fields = ['username', 'first_name', 'middle_name', 'last_name', 'identification', 'email', 'gender', 'phone', 'role']
-        widgets = {
-            'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'identification': forms.NumberInput(attrs={'class': 'form-control'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'gender': forms.Select(attrs={'class': 'form-control'}),
-            'phone': forms.TextInput(attrs={'class': 'form-control'}),
-            'role': forms.Select(attrs={'class': 'form-control'}),
-        }
+# class UserForm(forms.ModelForm):
+#     class Meta:
+#         model = User
+#         fields = ['username', 'first_name', 'middle_name', 'last_name', 'identification', 'email', 'gender', 'phone', 'role']
+#         widgets = {
+#             'username': forms.TextInput(attrs={'class': 'form-control'}),
+#             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+#             'identification': forms.NumberInput(attrs={'class': 'form-control'}),
+#             'email': forms.EmailInput(attrs={'class': 'form-control'}),
+#             'gender': forms.Select(attrs={'class': 'form-control'}),
+#             'phone': forms.TextInput(attrs={'class': 'form-control'}),
+#             'role': forms.Select(attrs={'class': 'form-control'}),
+#         }
 
 # class AdministratorForm(forms.ModelForm):
 #     class Meta:
@@ -32,9 +32,9 @@ class UserForm(forms.ModelForm):
 #         model = MedicalPersonel
 #         fields = ['user', 'kmdb_number', 'email']
 
-'''
+
 from django import forms
-from accounts.models import User, Administrator, Customer
+from accounts.models import User, Administrator, CommunityMember, MedicalPersonel
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.db import transaction
 from django.forms import ModelForm
@@ -44,7 +44,9 @@ from django.forms import ModelForm
 class UserCreationForm(ModelForm):
     class Meta:
         model = User
-        fields = ("username", "full_name", "phone", "email")
+        fields = ("username", "first_name", "middle_name", "last_name", "identification",
+                  "gender", "phone", "email", "county", "sub_county", "ward", "location",
+                  "sub_location", "village")
 
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(
@@ -75,7 +77,8 @@ class UserChangeForm(ModelForm):
 
     class Meta:
         model = User
-        fields = ("username", "full_name", "phone", "is_active", "is_admin",
+        fields = ("username", "first_name", "middle_name", "last_name", 
+                  "phone", "is_active", "is_admin",
                   "is_staff")
 
     def cleaned_password(self):
@@ -119,18 +122,17 @@ class UserSignUpForm(ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("username", "full_name", "phone",)
+        fields = ("username", "first_name", "middle_name", "last_name", "phone",)
 
 
-class CustomerProfileUpdateForm(forms.ModelForm):
+class CommunityMemberProfileUpdateForm(forms.ModelForm):
     bio = forms.CharField(label="Bio", widget=forms.Textarea(
         attrs={"class": "form-control", "placeholder": "",
                'rows': "3", "cols": '50'}))
 
     class Meta:
-        model = Customer
-        fields = ("city", "address", "postal_code",
-                  "town", "estate", "profile_picture",
+        model = CommunityMember
+        fields = ( "profile_picture",
                   "bio",)
 
 
@@ -142,4 +144,13 @@ class AdministratorProfileUpdate(forms.ModelForm):
     class Meta:
         model = Administrator
         fields = ("profile_picture", "bio")
-'''
+
+class MedicalPersonelProfileUpdateForm(forms.ModelForm):
+    bio = forms.CharField(label="Bio", widget=forms.Textarea(
+        attrs={"class": "form-control", "placeholder": "",
+               'rows': "3", "cols": '50'}))
+
+    class Meta:
+        model = MedicalPersonel
+        fields = ( "profile_picture",
+                  "bio", "kmdb_number")
