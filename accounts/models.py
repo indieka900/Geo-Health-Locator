@@ -107,7 +107,7 @@ class User(AbstractBaseUser, TrackingModel):
                                     blank=True, null=True)
     village = models.CharField(_("village"), max_length=100,
                                blank=True, null=True)
-    role = models.CharField(_('Role'), max_length=17, choices=Role_choices)
+    role = models.CharField(_('Role'), max_length=17, choices=Role_choices, default="Community Member")
 
     is_active = models.BooleanField(_('active'), default=True)
     is_admin = models.BooleanField(_('admin'), default=False)
