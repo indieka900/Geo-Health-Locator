@@ -20,14 +20,14 @@ def send_activation_mail(user_data, request):
     relativeLink = reverse('api:email-verify')
     absurl = "http://"+current_site+relativeLink+"?token="+str(token)
     message = f"""
-Welcome To Dhana,
+Welcome To GeoHealthLocator,
 
 Hi {user.username},
 Click on the link below to verify your account,
 {absurl}
 
 This is an automatically generated email. Please do not reply.
-@{datetime.date.today().year} Dhana | Voi town
+@{datetime.date.today().year} GeoHealthLocator | Voi town
     """
     email = EmailMessage(
         subject=mail_subject,
@@ -51,7 +51,7 @@ def send_password_reset_email(user_data, request):
     message = f"""
 Hello {user_data.username},
 
-You recently requested for a password reset for your Dhana Account,
+You recently requested for a password reset for your GeoHealthLocator Account,
 click the link below to reset it:
 {absurl}
 
@@ -59,7 +59,7 @@ If you did not request a password reset, Please ignore this email.
 If clicking the link above doesn't work, copy
 and paste it in a new browsers tab.
 
-Thanks, Dhana Team.
+Thanks, GeoHealthLocator Team.
     """
     email = EmailMessage(
         subject=mail_subject,
