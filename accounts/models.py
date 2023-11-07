@@ -95,6 +95,18 @@ class User(AbstractBaseUser, TrackingModel):
     phone = PhoneNumberField(
         _('phone number'), unique=True,
         blank=True, null=True, max_length=27)
+    county = models.CharField(_("county"), max_length=50,
+                              blank=True, null=True)
+    sub_county = models.CharField(_("sub county"), max_length=80,
+                                  blank=True, null=True)
+    ward = models.CharField(_("ward"), max_length=100,
+                            blank=True, null=True)
+    location = models.CharField(_("location"), max_length=100,
+                                blank=True, null=True)
+    sub_location = models.CharField(_("sub location"), max_length=100,
+                                    blank=True, null=True)
+    village = models.CharField(_("village"), max_length=100,
+                               blank=True, null=True)
     role = models.CharField(_('Role'), max_length=17, choices=Role_choices)
 
     is_active = models.BooleanField(_('active'), default=True)
@@ -140,42 +152,42 @@ class Profile(models.Model):
         abstract= True
 
 
-class Administrator(Profile):
-    first_name = models.CharField(_('first name'), max_length=50, blank=False, null=False)
-    middle_name = models.CharField(_("middle name"), max_length=50, blank=True, null=True)
-    last_name = models.CharField(_('last name'), max_length=50, blank=False, null=False)
-    county = models.CharField(_("county"), 
-                                max_length=80, blank=True, null=True)
-    sub_county = models.CharField(_("sub county"),
-                                  max_length=100, blank=True, null=True)
+# class Administrator(Profile):
+#     first_name = models.CharField(_('first name'), max_length=50, blank=False, null=False)
+#     middle_name = models.CharField(_("middle name"), max_length=50, blank=True, null=True)
+#     last_name = models.CharField(_('last name'), max_length=50, blank=False, null=False)
+#     county = models.CharField(_("county"), 
+#                                 max_length=80, blank=True, null=True)
+#     sub_county = models.CharField(_("sub county"),
+#                                   max_length=100, blank=True, null=True)
     
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
 
 
-class CommunityMember(Profile):
-    county = models.CharField(_("county"), max_length=50,
-                              blank=True, null=True)
-    sub_county = models.CharField(_("sub county"), max_length=80,
-                                  blank=True, null=True)
-    ward = models.CharField(_("ward"), max_length=100,
-                            blank=True, null=True)
-    location = models.CharField(_("location"), max_length=100,
-                                blank=True, null=True)
-    sub_location = models.CharField(_("sub location"), max_length=100,
-                                    blank=True, null=True),
-    village = models.CharField(_("village"), max_length=100,
-                               blank=True, null=True)
+# class CommunityMember(Profile):
+#     county = models.CharField(_("county"), max_length=50,
+#                               blank=True, null=True)
+#     sub_county = models.CharField(_("sub county"), max_length=80,
+#                                   blank=True, null=True)
+#     ward = models.CharField(_("ward"), max_length=100,
+#                             blank=True, null=True)
+#     location = models.CharField(_("location"), max_length=100,
+#                                 blank=True, null=True)
+#     sub_location = models.CharField(_("sub location"), max_length=100,
+#                                     blank=True, null=True),
+#     village = models.CharField(_("village"), max_length=100,
+#                                blank=True, null=True)
     
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
     
-class MedicalPersonel(Profile):
-    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False)
-    email = models.EmailField(_("email"), unique=True, error_messages={
-        'unique': ("A user with email already exists!")
-    })
+# class MedicalPersonel(Profile):
+#     kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False)
+#     email = models.EmailField(_("email"), unique=True, error_messages={
+#         'unique': ("A user with email already exists!")
+#     })
 
-    def __str__(self):
-        return self.user.username
+#     def __str__(self):
+#         return self.user.username
