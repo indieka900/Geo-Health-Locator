@@ -52,9 +52,9 @@
 
 from accounts.decorators import administrator_required, customer_required
 from accounts.forms import (AdministratorProfileUpdate,
-                            CustomerProfileUpdateForm, UserSignUpForm,
+                            CommunityMemberProfileUpdateForm, UserSignUpForm,
                             UserUpdateForm)
-from accounts.models import Administrator, Customer, User
+from accounts.models import Administrator, CommunityMember, User, MedicalPersonel
 from accounts.sendMails import send_activation_mail, send_password_reset_email
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
