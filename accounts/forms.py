@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, Administrator, CommunityMember, MedicalPersonel, Profile
+from .models import User, Profile
 
 class UserForm(forms.ModelForm):
     class Meta:
@@ -17,18 +17,18 @@ class UserForm(forms.ModelForm):
             'role': forms.Select(attrs={'class': 'form-control'}),
         }
 
-class AdministratorForm(forms.ModelForm):
-    class Meta:
-        model = Administrator
-        fields = ['user', 'first_name', 'middle_name', 'last_name', 'county', 'sub_county']
+# class AdministratorForm(forms.ModelForm):
+#     class Meta:
+#         model = Administrator
+#         fields = ['user', 'first_name', 'middle_name', 'last_name', 'county', 'sub_county']
 
-class CommunityMemberForm(forms.ModelForm):
-    class Meta:
-        model = CommunityMember
-        fields = ['user', 'county', 'sub_county', 'ward', 'location', 'village']
+# class CommunityMemberForm(forms.ModelForm):
+#     class Meta:
+#         model = CommunityMember
+#         fields = ['user', 'county', 'sub_county', 'ward', 'location', 'village']
 
-class MedicalPersonelForm(forms.ModelForm):
-    class Meta:
-        model = MedicalPersonel
-        fields = ['user', 'kmdb_number', 'email']
+# class MedicalPersonelForm(forms.ModelForm):
+#     class Meta:
+#         model = MedicalPersonel
+#         fields = ['user', 'kmdb_number', 'email']
 
