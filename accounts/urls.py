@@ -1,5 +1,6 @@
 from django.urls import path
-from . import views
+from accounts.views import AdministratorSignupView
+from accounts.views import CommunityMemberSignupView
 
 app_name = 'accounts'
 
