@@ -88,7 +88,7 @@ class AdministratorSignupView(CreateView):
         return render(self.request, "accounts/sign_alert.html")
 
 
-class CustomerSignupView(CreateView):
+class CommunityMemberSignupView(CreateView):
     model = User
     form_class = UserSignUpForm
     template_name = "accounts/customerSignup.html"
