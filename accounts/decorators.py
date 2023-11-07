@@ -17,7 +17,7 @@ def administrator_required(function=None,
     return actual_decorator
 
 
-def customer_required(function=None,
+def community_member_required(function=None,
                       redirect_field_name=REDIRECT_FIELD_NAME,
                       login_url="/login/"):
     actual_decorator = user_passes_test(

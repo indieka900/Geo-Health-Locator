@@ -50,7 +50,7 @@
     
 #     return render(request, 'create_medical_personel.html', {'medical_form': medical_form})
 
-from accounts.decorators import administrator_required, customer_required
+from accounts.decorators import administrator_required, community_member_required
 from accounts.forms import (AdministratorProfileUpdate,
                             CommunityMemberProfileUpdateForm, UserSignUpForm,
                             UserUpdateForm)
