@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Member Account Creation</title>
+    <!-- Bootstrap CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with logos -->
+        <div class="row align-items-center py-3">
+            <div class="col-4">
+                <img src="{% static 'TTC.jpeg' %}" alt="Taita Taveta County Logo" class="img-fluid">
+            </div>
+            <div class="col-4 text-center">
+                <h1>Community Member Account Creation</h1>
+            </div>
+            <div class="col-4">
+                <img src="{% static 'kenya_moh.png' %}" alt="Ministry of Health Logo" class="img-fluid float-right">
+            </div>
+        </div>
+        <!-- Main content with form -->
+        {% block content %}
+            
+        {% endblock %}
+    </div>
+</body>
+</html>

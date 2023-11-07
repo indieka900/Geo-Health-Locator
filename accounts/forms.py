@@ -1,57 +1,34 @@
-from accounts.models import User, Administrator, MedicalPersonel, CommunityMember
-
 from django import forms
+from .models import User, Administrator, CommunityMember, MedicalPersonel, Profile
 
-from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-
-
-class CustomUserCreationForm(UserCreationForm):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'text',
-            'placeholder': 'Johndoe',
-        })
-        self.fields['email'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'email',
-            'placeholder': 'Johndoe@mail.com',
-        })
-        self.fields['password1'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'password',
-            'placeholder': 'password',
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'password',
-            'placeholder': 'password',
-        })
-        self.fields['password2'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'password',
-            'placeholder': 'password',
-        })
-        self.fields['age'].widget.attrs.update({
-            'class': 'form-control',
-            'required': '',
-            'type': 'password',
-            'placeholder': 'Age',
-        })
-
-    class Meta(UserCreationForm.Meta):
-        model = User
-        fields = ['username', 'email', 'age', 'password1', 'password2']
-
-
-class CustomUserChangeForm(UserChangeForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = UserChangeForm.Meta.fields
+        fields = ['username', 'first_name', 'middle_name', 'last_name', 'identification', 'email', 'gender', 'phone', 'role']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'middle_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'identification': forms.NumberInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'gender': forms.Select(attrs={'class': 'form-control'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control'}),
+            'role': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+class AdministratorForm(forms.ModelForm):
+    class Meta:
+        model = Administrator
+        fields = ['user', 'first_name', 'middle_name', 'last_name', 'county', 'sub_county']
+
+class CommunityMemberForm(forms.ModelForm):
+    class Meta:
+        model = CommunityMember
+        fields = ['user', 'county', 'sub_county', 'ward', 'location', 'village']
+
+class MedicalPersonelForm(forms.ModelForm):
+    class Meta:
+        model = MedicalPersonel
+        fields = ['user', 'kmdb_number', 'email']
+
