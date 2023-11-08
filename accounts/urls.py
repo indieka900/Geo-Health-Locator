@@ -1,9 +1,10 @@
 from django.urls import path
-from accounts.views import AdministratorSignupView, CommunityMemberSignupView
+from accounts.views import MedicalPersonellSignupView, CommunityMemberSignupView,VerifyEmail
 
 app_name = 'accounts'
 
 urlpatterns = [
     path('community-member/', CommunityMemberSignupView.as_view(), name='register-community-member'),
-    path('admin-reqistration/', AdministratorSignupView.as_view(), name='register-admin'),
+    path('medical-personel-registration/', MedicalPersonellSignupView.as_view(), name='register-medical-personell'),
+    path('activate/', VerifyEmail,name="email-verify"),
 ]
