@@ -12,13 +12,18 @@ from accounts.models import User
 
 
 def send_activation_mail(user_data, request):
-    user = User.objects.get(email=user_data['email'])
+    user = User.objects.get(email=user_data.email)
+
     current_site = get_current_site(request).domain
     mail_subject = "Verify Your Account."
     to_mail = user.email
+    print('error 1')
     token = RefreshToken.for_user(user).access_token
-    relativeLink = reverse('api:email-verify')
+    
+    relativeLink = reverse('accounts:email-verify')
+    print(user.email)
     absurl = "http://"+current_site+relativeLink+"?token="+str(token)
+    print('error 2')
     message = f"""
 Welcome To GeoHealthLocator,
 
