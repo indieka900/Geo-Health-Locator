@@ -94,22 +94,22 @@ def Medicalpersonellogin(request):
     # if request.user.is_authenticated:
     #     return redirect('/')
     if request.method == 'POST':
-        kmdb_mumber = request.POST.get('kmdb_mumber')
+        kmdb_number = request.POST.get('kmdb_number')
         password = request.POST.get('password')
         try:
-            medics= MedicalPersonel.objects.get(kmdb_mumber=kmdb_mumber)
+            medics= MedicalPersonel.objects.get(kmdb_number=kmdb_number)
         except MedicalPersonel.DoesNotExist:
-            messages.error(request, 'email does not exist!') 
+            messages.error(request, 'KMDB number does not exist!') 
         
-        medics = authenticate(request, kmdb_mumber=kmdb_mumber, password=password)
+        medics = authenticate(request, kmdb_number=kmdb_number, password=password)
         
         if medics is not None:
             login(request, medics)
             messages.success(request, 'Logged in succesfully')
             return redirect('/')
         else:
-            messages.error(request, 'email or password does not exist')
-            return redirect('/login')
+            messages.error(request, 'KMDB number or password does not exist')
+            return redirect('/')
     
     return render(request,'login.html',{'medics':'medics'})
 
