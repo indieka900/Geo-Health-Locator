@@ -1,3 +1,5 @@
+import jwt
+
 from accounts.decorators import administrator_required, community_member_required
 from accounts.forms import (MedicalPersonnelSignUpForm,
                             UserSignUpForm,
@@ -12,11 +14,8 @@ from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
 from django.conf import settings
 from django.contrib import messages
-import jwt
-# from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
-# from rest_framework_simplejwt.tokens import RefreshToken
-# from rest_framework_simplejwt.views import (TokenObtainPairView,
-#                                             TokenRefreshView)
+from django.contrib.auth import authenticate, login, logout
+
 
 decorators = [never_cache, login_required, administrator_required]
 
@@ -65,6 +64,56 @@ class CommunityMemberSignupView(CreateView):
             community_member.save()
             send_activation_mail(user, self.request)
         return render(self.request, "sign_alert.html")
+
+def Communitymemberlogin(request):
+    
+    # if request.user.is_authenticated:
+    #     return redirect('/')
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        try:
+            member= CommunityMember.objects.get(user__email=email)
+        except CommunityMember.DoesNotExist:
+            messages.error(request, 'email does not exist!') 
+        
+        member = authenticate(request, email=email, password=password)
+        
+        if member is not None:
+            login(request, member)
+            messages.success(request, 'Logged in succesfully')
+            return redirect('/')
+        else:
+            messages.error(request, 'email or password does not exist')
+            return redirect('/login')
+    return render(request,'login.html',{'member':'member'})
+
+
+def Medicalpersonellogin(request):
+    
+    # if request.user.is_authenticated:
+    #     return redirect('/')
+    if request.method == 'POST':
+        kmdb_mumber = request.POST.get('kmdb_mumber')
+        password = request.POST.get('password')
+        try:
+            medics= MedicalPersonel.objects.get(kmdb_mumber=kmdb_mumber)
+        except MedicalPersonel.DoesNotExist:
+            messages.error(request, 'email does not exist!') 
+        
+        medics = authenticate(request, kmdb_mumber=kmdb_mumber, password=password)
+        
+        if medics is not None:
+            login(request, medics)
+            messages.success(request, 'Logged in succesfully')
+            return redirect('/')
+        else:
+            messages.error(request, 'email or password does not exist')
+            return redirect('/login')
+    
+    return render(request,'login.html',{'medics':'medics'})
+
+
 
 def RequestPasswordReset(request):
     context = {

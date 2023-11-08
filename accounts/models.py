@@ -166,7 +166,7 @@ class CommunityMember(Profile):
         return self.user.username
     
 class MedicalPersonel(Profile):
-    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False)
+    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False, unique=True)
 
     def __str__(self):
         return self.user.username
