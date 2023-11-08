@@ -38,7 +38,7 @@ class CommunityMemberAdmin(admin.ModelAdmin):
 @admin.register(MedicalPersonel)
 class MedicalPersonelAdmin(admin.ModelAdmin):
     search_fields = ["get_username",]
-    list_display = ("kmdb_number",)
+    list_display = ("get_username","kmdb_number",)
 
     def get_username(self, obj):
         return obj.user.username
