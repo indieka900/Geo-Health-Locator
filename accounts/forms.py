@@ -5,6 +5,10 @@ class UserSignUpForm(forms.ModelForm):
     email = forms.EmailField(max_length=156, required=True)
     phone = forms.CharField(max_length=20, required=True)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
     class Meta:
         model = User
         fields = ("username", "first_name", "middle_name", "last_name", "identification",
@@ -44,11 +48,13 @@ class MedicalPersonnelSignUpForm(UserSignUpForm):
         label="KMDB Number",
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter KMDB Number'}),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter KMDB Number','class':'form-control'}),
     )
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)  # Set the default role to "Medical Personnel"
-        self.fields['kmdb_number'].required = True  # Make the "kmdb_number" field required
+        self.fields['kmdb_number'].required = True 
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({'class': 'form-control'})
 
     class Meta:
         model = User
