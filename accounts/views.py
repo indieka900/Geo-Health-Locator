@@ -1,6 +1,6 @@
 import jwt
 
-from accounts.decorators import administrator_required, community_member_required
+from accounts.decorators import administrator_required, community_member_required, medical_personell_required
 from accounts.forms import (MedicalPersonnelSignUpForm,
                             UserSignUpForm,
                             )
