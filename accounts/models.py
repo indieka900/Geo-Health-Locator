@@ -170,3 +170,9 @@ class MedicalPersonel(Profile):
 
     def __str__(self):
         return self.user.username
+    
+class Hospital(models.Model):
+    hospital_name = models.CharField(_("hospital name"), max_length=100,
+                                     blank=False, null=False, unique=True)
+    latitude = models.FloatField(_("latitude"), blank=True, null=True)
+    longitude = models.FloatField(_("longitude"), blank=True, null=True)
