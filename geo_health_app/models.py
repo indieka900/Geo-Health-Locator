@@ -4,8 +4,8 @@ from django.utils.translation import gettext as _
 
 class Disease(models.Model):
     reporter = models.OneToOneField(User, 
-                                    on_delete=models.CASCADE, unique=True)
-    symptoms = models.JSONField(default=list)
+                                    on_delete=models.CASCADE)
+    symptoms = models.JSONField(default=list, blank=True, null=True)
     latitude = models.FloatField(_("latitude"),
                                  blank=True, null=True)
     longitude = models.FloatField(_("longitude"),
