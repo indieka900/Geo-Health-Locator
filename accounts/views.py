@@ -1,19 +1,15 @@
 import datetime
-import jwt
-
 from accounts.decorators import administrator_required, community_member_required, medical_personell_required
-from accounts.forms import (MedicalPersonnelSignUpForm,
-                            UserSignUpForm,
-                            )
+from accounts.forms import (MedicalPersonnelSignUpForm,UserSignUpForm,)
 from .tokens import account_activation_token 
 from django.contrib.sites.shortcuts import get_current_site  
-from django.utils.encoding import force_bytes, force_text  
+from django.utils.encoding import force_bytes, force_str  
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
 from django.template.loader import render_to_string 
 from accounts.models import Administrator, CommunityMember, User, MedicalPersonel
-from accounts.sendMails import send_activation_mail, send_password_reset_email
+from accounts.sendMails import  send_password_reset_email
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
@@ -23,15 +19,15 @@ from django.core.mail import EmailMessage
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-
+from django.shortcuts import render, redirect
+from django.views.generic.edit import CreateView
+from .forms import UserSignUpForm
 
 decorators = [never_cache, login_required, administrator_required]
 
 
 # @method_decorator(decorators, name='dispatch')
-from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
-from .forms import UserSignUpForm
+
 
 class MedicalPersonellSignupView(CreateView):
     model = User
@@ -166,46 +162,18 @@ def RequestPasswordReset(request):
     return render(request, "accounts/RequestPasswordReset.html", context)
 
 
-def VerifyEmail(request):
-    token = request.GET.get("token")
-    try:
-        payload = jwt.decode(
-            token,
-            settings.SECRET_KEY,
-            algorithms="HS256"
-        )
-        user = User.objects.get(id=payload['user_id'])
-        if not user.is_active:
-            user.is_active = True
-            user.save()
-            messages.success(request,
-                             "Account was Successfully Verified.")
-        else:
-            messages.info(request,
-                          """Your Account has already been activated.
-                          You can now login and 
-                          place your order today.
-                        """)
-    except jwt.ExpiredSignatureError as identifier:
-        messages.warning(request,
-                         "The Activation Link Expired!")
-    except jwt.exceptions.DecodeError as identifier:
-        messages.warning(request, "Invalid Activation Link!")
-    context = {
-    }
-    return render(request, "verify.html", context)
-
 
 def activate(request, uidb64, token):  
     User = get_user_model()  
     try:  
-        uid = force_text(urlsafe_base64_decode(uidb64))  
+        uid = force_str(urlsafe_base64_decode(uidb64))  
         user = User.objects.get(pk=uid)  
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):  
         user = None  
     if user is not None and account_activation_token.check_token(user, token):  
         user.is_active = True  
         user.save()  
+        messages.success(request,"Account was Successfully Verified.")
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')  
     else:  
         return HttpResponse('Activation link is invalid!')

@@ -10,35 +10,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from accounts.models import User
 
-
-def send_activation_mail(user_data, request):
-    user = User.objects.get(email=user_data.email)
-
-    current_site = get_current_site(request).domain
-    mail_subject = "Verify Your Account."
-    to_mail = user.email
-    token = RefreshToken.for_user(user).access_token
-    
-    relativeLink = reverse('accounts:email-verify')
-    absurl = "http://"+current_site+relativeLink+"?token="+str(token)
-    message = f"""
-Welcome To GeoHealthLocator,
-
-Hi {user.username},
-Click on the link below to verify your account,
-{absurl}
-
-This is an automatically generated email. Please do not reply.
-@{datetime.date.today().year} GeoHealthLocator | Voi town
-    """
-    email = EmailMessage(
-        subject=mail_subject,
-        body=message,
-        to=[to_mail]
-    )
-    email.send()
-
-
 def send_password_reset_email(user_data, request):
     uidb64 = urlsafe_base64_encode(smart_bytes(user_data.id))
     token = PasswordResetTokenGenerator().make_token(user_data)
