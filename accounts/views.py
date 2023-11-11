@@ -1,9 +1,15 @@
+import datetime
 import jwt
 
-from accounts.decorators import administrator_required, community_member_required
+from accounts.decorators import administrator_required, community_member_required, medical_personell_required
 from accounts.forms import (MedicalPersonnelSignUpForm,
                             UserSignUpForm,
                             )
+from .tokens import account_activation_token 
+from django.contrib.sites.shortcuts import get_current_site  
+from django.utils.encoding import force_bytes, force_text  
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode  
+from django.template.loader import render_to_string 
 from accounts.models import Administrator, CommunityMember, User, MedicalPersonel
 from accounts.sendMails import send_activation_mail, send_password_reset_email
 from django.contrib.auth.decorators import login_required
@@ -13,6 +19,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
 from django.conf import settings
+from django.core.mail import EmailMessage
+from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 
@@ -42,7 +50,19 @@ class MedicalPersonellSignupView(CreateView):
             kmdb_number = form.cleaned_data.get('kmdb_number')
             medical_personnel = MedicalPersonel(user=user, kmdb_number=kmdb_number)
             medical_personnel.save()
-            send_activation_mail(user, self.request)
+            current_site = get_current_site(self.request)  
+            mail_subject = 'Verify your account'  
+            message = render_to_string('acc_active_email.html', {  
+                'user': user,  
+                'domain': current_site.domain,  
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                'token':account_activation_token.make_token(user),  
+            })  
+            to_email = form.cleaned_data.get('email')  
+            email = EmailMessage(  
+                        mail_subject, message, to=[to_email]  
+            )  
+            email.send()
 
         return render(self.request, "sign_alert.html")
 
@@ -62,8 +82,21 @@ class CommunityMemberSignupView(CreateView):
             user.save()
             community_member = CommunityMember(user=user)
             community_member.save()
-            send_activation_mail(user, self.request)
-        return render(self.request, "sign_alert.html")
+            current_site = get_current_site(self.request)  
+            mail_subject = 'Verify your account'  
+            message = render_to_string('acc_active.html', {  
+                'user': user,  
+                'time': datetime.date.today().year,
+                'domain': current_site.domain,  
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
+                'token':account_activation_token.make_token(user),  
+            })  
+            to_email = form.cleaned_data.get('email')  
+            email = EmailMessage(  
+                        mail_subject, message, to=[to_email]  
+            )  
+            email.send()
+            return render(self.request, "sign_alert.html")
 
 def Communitymemberlogin(request):
     
@@ -80,12 +113,16 @@ def Communitymemberlogin(request):
         member = authenticate(request, email=email, password=password)
         
         if member is not None:
-            login(request, member)
-            messages.success(request, 'Logged in succesfully')
-            return redirect('/')
+            if member.is_active:
+                login(request, member)
+                messages.success(request, 'Logged in succesfully')
+                return redirect('/')
+            else:
+                messages.error(request, 'Please activate your account')
+                return redirect('/') 
         else:
             messages.error(request, 'email or password does not exist')
-            return redirect('/login')
+            return redirect('/')
     return render(request,'login.html',{'member':'member'})
 
 
@@ -105,9 +142,13 @@ def Medicalpersonellogin(request):
         if medics.user.email == email:
             user = authenticate(request, email=email, password=password)
             if user is not None:
-                login(request, user)
-                messages.success(request, 'Logged in successfully')
-                return redirect('/')
+                if user.is_active:
+                    login(request, user)
+                    messages.success(request, 'Logged in successfully')
+                    return redirect('/')
+                else:
+                    messages.error(request, 'Please activate your account')
+                    return redirect('/')
             else:
                 messages.error(request, 'Invalid password')
                 return redirect('/')
@@ -153,3 +194,18 @@ def VerifyEmail(request):
     context = {
     }
     return render(request, "verify.html", context)
+
+
+def activate(request, uidb64, token):  
+    User = get_user_model()  
+    try:  
+        uid = force_text(urlsafe_base64_decode(uidb64))  
+        user = User.objects.get(pk=uid)  
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):  
+        user = None  
+    if user is not None and account_activation_token.check_token(user, token):  
+        user.is_active = True  
+        user.save()  
+        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')  
+    else:  
+        return HttpResponse('Activation link is invalid!')
