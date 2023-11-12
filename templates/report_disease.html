@@ -24,7 +24,12 @@
         <!-- Main content with form -->
         <div class="row justify-content-center py-5">
             <div class="col-6">
-                <form>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{form.as_p}}
+                    <button type="submit" class="btn btn-primary mt-2">Register</button>
+                </form>
+                <!-- <form>
                     <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" class="form-control" id="name" required>
@@ -120,7 +125,7 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                     </div>
-                </form>
+                </form> -->
                 <!-- Reply note -->
                 <div id="reply-note" class="alert alert-success" role="alert" style="display: none;">
                     Your report has successfully been SUBMITTED, thanks.
