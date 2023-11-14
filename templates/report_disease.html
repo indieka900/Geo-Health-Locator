@@ -1,136 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Report Disease Outbreaks</title>
-    <!-- Bootstrap CDN -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
-</head>
-<body>
-    <div class="container">
-        <!-- Header with logos -->
-        <div class="row align-items-center py-3">
-            <div class="col-4">
-                <img src="taita-taveta-logo.png" alt="Taita Taveta County Logo" class="img-fluid">
-            </div>
-            <div class="col-4 text-center">
-                <h1>Report Disease Outbreaks</h1>
-            </div>
-            <div class="col-4">
-                <img src="ministry-of-health-logo.png" alt="Ministry of Health Logo" class="img-fluid float-right">
-            </div>
-        </div>
-        <!-- Main content with form -->
-        <div class="row justify-content-center py-5">
-            <div class="col-6">
-                <form method="post" action="">
-                    {% csrf_token %}
-                    {{form.as_p}}
-                    <button type="submit" class="btn btn-primary mt-2">Register</button>
-                </form>
-                <!-- <form>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone-number">Phone Number</label>
-                        <input type="tel" class="form-control" id="phone-number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" class="form-control" id="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="gender">Gender</label>
-                        <select class="form-control" id="gender" required>
-                            <option value="">Select your gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location</label>
-                        <button type="button" class="btn btn-primary" id="location">Click to capture the actual location of the outbreak</button>
-                    </div>
-                    <div class="form-group">
-                        <label for="symptoms">Symptoms of the disease outbreak</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="headache" id="headache">
-                            <label class="form-check-label" for="headache">Headache</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="vomiting" id="vomiting">
-                            <label class="form-check-label" for="vomiting">Vomiting</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="diarrhea-with-blood" id="diarrhea-with-blood">
-                            <label class="form-check-label" for="diarrhea-with-blood">Diarrhea (With blood stains)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="diarrhea-no-blood" id="diarrhea-no-blood">
-                            <label class="form-check-label" for="diarrhea-no-blood">Diarrhea (No blood stains)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="coughing-dry" id="coughing-dry">
-                            <label class="form-check-label" for="coughing-dry">Coughing (Dry cough)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="coughing-wet" id="coughing-wet">
-                            <label class="form-check-label" for="coughing-wet">Coughing (Wet cough)</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="sweating" id="sweating">
-                            <label class="form-check-label" for="sweating">Sweating</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="dehydration" id="dehydration">
-                            <label class="form-check-label" for="dehydration">Dehydration</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="difficulty-in-breathing" id="difficulty-in-breathing">
-                            <label class="form-check-label" for="difficulty-in-breathing">Difficulty in breathing</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="joint-pains" id="joint-pains">
-                            <label class="form-check-label" for="joint-pains">Joint pains</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="fainting" id="fainting">
-                            <label class="form-check-label" for="fainting">Fainting</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="loss-of-weight" id="loss-of-weight">
-                            <label class="form-check-label" for="loss-of-weight">Loss of weight</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="high-temperatures" id="high-temperatures">
-                            <label class="form-check-label" for="high-temperatures">High temperatures</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="shivering" id="shivering">
-                            <label class="form-check-label" for="shivering">Shivering</label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="stomach-upset" id="stomach-upset">
-                            <label class="form-check-label" for="stomach-upset">Stomach upset</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="result">Result</label>
-                        <button type="button" class="btn btn-primary" id="result">Click to generate an automated result</button>
-                        <p id="result-text" class="text-muted">This result can only be authenticated when the patient is finally seen by a medical doctor</p>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" id="submit">Submit</button>
-                    </div>
-                </form> -->
-                <!-- Reply note -->
-                <div id="reply-note" class="alert alert-success" role="alert" style="display: none;">
-                    Your report has successfully been SUBMITTED, thanks.
-                </div>
-            </div>
-        </div>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add Disease</h1>
+
+<form id="diseaseForm" method="post">
+    {% csrf_token %}
+    <label for="name">Disease Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br>
+
+    <div id="symptomFields">
+        <label for="symptom1">Symptom 1: </label>
+        <input type="text" id="symptom1" name="symptom1" required> <br>
+        <label for="longitude">Longitude: </label>
+        <input type="text" id="longitude"> <br>
+        <label for="latitude">Latitude: </label>
+        <input type="text" id="latitude">
     </div>
-</body
+
+    <button type="button" id="addSymptomBtn">Add Symptom</button>
+    <br>
+
+    <button type="button" id="getLocationBtn">Get Location</button>
+    <input type="submit" value="Add Disease">
+</form>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var symptomCount = 1; // Counter for symptom fields
+        $('#addSymptomBtn').click(function() {
+            symptomCount++; // Increment symptom count
+            // Create a new symptom field with label and input
+            var newSymptomField = '<div id="symptom' + symptomCount + '">' +
+                '<label for="symptom' + symptomCount + '">Symptom ' + symptomCount + ':</label>' +
+                '<input type="text" id="symptom' + symptomCount + '" name="symptom' + symptomCount + '" required>' +
+                '</div>';
+            // Append the new symptom field to the existing symptom container
+            $('#symptomFields').append(newSymptomField);
+        });
+        
+        $('#getLocationBtn').click(function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+                showPosition()
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        });
+        function showPosition(position) {
+            $('#latitude').val(position.coords.latitude);
+            $('#longitude').val(position.coords.longitude);
+        }
+        $('#diseaseForm').submit(function() {
+            var symptomValues = [];
+            for (var i = 1; i <= symptomCount; i++) {
+                var symptomValue = $('#symptom' + i).val();
+                if (symptomValue) {
+                    symptomValues.push(symptomValue);
+                }
+            }
+            var symptomsJSON = JSON.stringify(symptomValues);
+            $('#diseaseForm').append('<input type="hidden" name="symptoms" value="' + symptomsJSON + '">');
+        });
+    });
+</script>
+{% endblock %}
