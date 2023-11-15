@@ -3,9 +3,8 @@ from accounts.models import User, Hospital
 from django.utils.translation import gettext as _
 
 class Disease(models.Model):
-    reporter = models.OneToOneField(User, 
-                                    on_delete=models.CASCADE)
-    symptoms = models.JSONField(default=list, blank=True, null=True)
+    reporter = models.ManyToManyField(User)
+    symptoms = models.TextField( _("Symptoms"), blank=True, null=True)
     latitude = models.FloatField(_("latitude"),
                                  blank=True, null=True)
     longitude = models.FloatField(_("longitude"),

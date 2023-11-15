@@ -7,7 +7,7 @@ from geo_health_app.models import (Disease, Patient)
 @admin.register(Disease)
 class DiseaseAdmin(admin.ModelAdmin):
     search_fields = ["reporter",]
-    list_display = ("reporter", "symptoms", 
+    list_display = ("id","symptoms",  
                     "latitude", "longitude",
                     "reported_at")
     

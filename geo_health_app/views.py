@@ -20,17 +20,15 @@ class ReportDiseaseView(CreateView):
 
     def form_valid(self, form):
         if form.is_valid():
-            # name = form.cleaned_data.get('name')
-            longitude = self.request.POST.get('longitude')
-            latitude = self.request.POST.get('latitude')
-            # symptoms = form.cleaned_data.get('symptoms')
-            print(latitude)
-            pass
-            # disease = Disease(reporter = self.request.user,latitude=latitude, longitude=longitude)
-            # disease.save()
-            # return redirect('/')
+            symptoms = form.cleaned_data.get('symptoms')
+            latitude = form.cleaned_data.get('latitude')
+            longitude = form.cleaned_data.get('longitude')
+            disease = Disease(symptoms=symptoms, latitude=latitude,longitude=longitude)
+            
+            disease.save()
+            disease.reporter.set([self.request.user])
+            return redirect('/')
 
-        return render(self.request, "accounts/sign_alert.html")
 
 class OrderAmbulanceView(CreateView):
     model = Patient

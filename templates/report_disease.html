@@ -5,20 +5,7 @@
 
 <form id="diseaseForm" method="post">
     {% csrf_token %}
-    <label for="name">Disease Name:</label>
-    <input type="text" id="name" name="name" required>
-    <br>
-
-    <div id="symptomFields">
-        <label for="symptom1">Symptom 1: </label>
-        <input type="text" id="symptom1" name="symptom1" required> <br>
-        <label for="longitude">Longitude: </label>
-        <input type="text" id="longitude"> <br>
-        <label for="latitude">Latitude: </label>
-        <input type="text" id="latitude">
-    </div>
-
-    <button type="button" id="addSymptomBtn">Add Symptom</button>
+    {{ form.as_p }}
     <br>
 
     <button type="button" id="getLocationBtn">Get Location</button>
@@ -28,41 +15,22 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function() {
-        var symptomCount = 1; // Counter for symptom fields
-        $('#addSymptomBtn').click(function() {
-            symptomCount++; // Increment symptom count
-            // Create a new symptom field with label and input
-            var newSymptomField = '<div id="symptom' + symptomCount + '">' +
-                '<label for="symptom' + symptomCount + '">Symptom ' + symptomCount + ':</label>' +
-                '<input type="text" id="symptom' + symptomCount + '" name="symptom' + symptomCount + '" required>' +
-                '</div>';
-            // Append the new symptom field to the existing symptom container
-            $('#symptomFields').append(newSymptomField);
-        });
+       
         
-        $('#getLocationBtn').click(function() {
+        $('#getLocationBtn').click(function(event) {
+            event.preventDefault(); // Prevent default form submission
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(showPosition);
-                showPosition()
             } else {
                 alert("Geolocation is not supported by this browser.");
             }
         });
+        
         function showPosition(position) {
             $('#latitude').val(position.coords.latitude);
             $('#longitude').val(position.coords.longitude);
         }
-        $('#diseaseForm').submit(function() {
-            var symptomValues = [];
-            for (var i = 1; i <= symptomCount; i++) {
-                var symptomValue = $('#symptom' + i).val();
-                if (symptomValue) {
-                    symptomValues.push(symptomValue);
-                }
-            }
-            var symptomsJSON = JSON.stringify(symptomValues);
-            $('#diseaseForm').append('<input type="hidden" name="symptoms" value="' + symptomsJSON + '">');
-        });
+        
     });
 </script>
 {% endblock %}
