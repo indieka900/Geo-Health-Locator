@@ -2,6 +2,9 @@
 
 {% block content %}
 <h1>Add Disease</h1>
+        {% for hospital in hospitals %}
+            <h3>{{ hospital.hospital_name }}</h3>
+        {% endfor %}
 
 <form id="diseaseForm" method="post">
     {% csrf_token %}
@@ -17,6 +20,7 @@
 class="container">
         <h1>Available Spaces</h1>
 
+        
         <div id="map" style="width: 100%; height: 400px;"></div>
 
         <table class="table table-striped table-bordered">
@@ -39,6 +43,7 @@ class="container">
                 {% endfor %}
             </tbody>
         </table>
+        
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2eHOl4d4kRRC38qQQn7kHXFrg3z7UqSUO2R6BwHq6k5uXYiH8HYlxd7Kcd" crossorigin="anonymous"></script>
@@ -65,6 +70,7 @@ src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></s
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    
     $(document).ready(function() {
        
         
@@ -88,34 +94,36 @@ src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></s
                 center: {lat: -3.188275, lng: 36.822995},
             });
 
-            const places = [
-                {
-                    location: {lat: -3.179461, lng: 36.817332},
-                    title: 'Fazuri Hillside Place',
-                },
-                {
-                    location: {lat: -3.181043, lng: 36.821292},
-                    title: 'Mvumu ghwa Mwangeka wa Malowa',
-                },
-                {
-                    location: {lat: -3.191981, lng: 36.817661},
-                    title: 'Market place',
-                },
-                {
-                    location: {lat: -3.203996, lng: 36.822966},
-                    title: 'Susana Eating Place',
-                },
-                {
-                    location: {lat: -3.215112, lng: 36.822598},
-                    title: 'THE PLACE',
-                },
-            ];
+            var places = [
+                    {% for hospital in hospitals %}
+                        {
+                            location: {lat: {{ hospital.latitude }}, lng: {{ hospital.longitude }}},
+                            title: "{{ hospital.hospital_name }}",
+                            id: "{{ hospital.id }}"
+                        },
+                    {% endfor %}
+                ];
 
             for (const place of places) {
                 const marker = new google.maps.Marker({
                     position: place.location,
                     title: place.title,
                     map: map,
+                });
+
+                const contentString = '<div>' +
+                    '<h4>' + place.title + '</h4>' +
+                    '<p>' + place.description + '</p>' +
+                    '<a href="/view/' + place.id + '/">' + place.id + '</a>' +
+                    '</div>';
+        
+                const infowindow = new google.maps.InfoWindow({
+                    content: contentString,
+                });
+        
+                // Add a click event listener to open the info window when the marker is clicked
+                marker.addListener('click', () => {
+                    infowindow.open(map, marker);
                 });
 
                 marker.addListener('click', function() {
@@ -131,3 +139,6 @@ src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></s
     
 </script>
 {% endblock %}
+
+
+<a href=""></a>
