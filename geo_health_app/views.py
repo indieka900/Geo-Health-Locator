@@ -9,37 +9,35 @@ def home(request):
     return render(request, 'index.html')
 
 
-class ReportDiseaseView(ListView):
+class ReportDiseaseView(CreateView):
     model = Disease
     form_class = ReportDiseaseForm
-    template_name = "report_disease.html"
-    queryset = Hospital.objects.all()
-    context_object_name = 'hospitals'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class()
-        return context
-    
-    def post(self, request, *args, **kwargs):
+    template_name = "repo_disease.html"
+
+    # def get(self, request, *args, **kwargs):
+    #     form = self.form_class()
+    #     return render(request, self.template_name, {'form': form})
+
+    def post(self, request,id, *args, **kwargs):
+        form = self.form_class(request.POST)
+        hospital = Hospital.objects.get(id=id)
         form = self.form_class(request.POST)
         if form.is_valid():
-            return self.form_valid(form)
+            symptoms = form.cleaned_data.get('symptoms')
+            latitude = form.cleaned_data.get('latitude')
+            longitude = form.cleaned_data.get('longitude')
+            disease = Disease(symptoms=symptoms, latitude=latitude, longitude=longitude, reported_to= hospital.hospital_name)
+            
+            disease.save()
+            disease.reporter.set([request.user])
+            return redirect('/')
         else:
-            # Handle the case where the form is not valid
-            return self.form_invalid(form)
+            return render(request, self.template_name, {'form': form})
 
-    def form_valid(self, form):
-        symptoms = form.cleaned_data.get('symptoms')
-        latitude = form.cleaned_data.get('latitude')
-        longitude = form.cleaned_data.get('longitude')
-        disease = Disease(symptoms=symptoms, latitude=latitude, longitude=longitude)
-        
-        disease.save()
-        disease.reporter.set([self.request.user])
-        return redirect('/')
-
-
+class HospitalListView(ListView):
+    model = Hospital
+    template_name = "choose_hospital.html"
+    context_object_name = 'hospitals'
 
 class OrderAmbulanceView(CreateView):
     model = Patient
