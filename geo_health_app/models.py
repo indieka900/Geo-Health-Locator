@@ -19,3 +19,4 @@ class Patient(Disease):
     age = models.IntegerField(_("age"), blank=True, null=True)
     health_situation = models.TextField(_("health situation"), max_length=1000,
                                         blank=True, null=True)
+
