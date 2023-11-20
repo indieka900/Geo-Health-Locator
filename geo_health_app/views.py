@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
 from django.views.generic import CreateView,ListView
-from geo_health_app.forms import ReportDiseaseForm, OrderAmbulanceForm
-from geo_health_app.models import Disease, Patient
-from accounts.models import Hospital
+from geo_health_app.forms import ReportDiseaseForm, OrderAmbulanceForm, TreatPatientForm
+from geo_health_app.models import Disease, Patient, TreatPatient
+from accounts.models import Hospital,MedicalPersonel
 
 
 def home(request):
@@ -55,5 +55,40 @@ class OrderAmbulanceView(CreateView):
 
         return render(self.request, "accounts/sign_alert.html")
 
+class TreatPatientView(CreateView):
+    model = TreatPatient
+    form_class = TreatPatientForm
+    template_name = "treatpatient.html"
 
-# Create your views here.
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        # hospital = Hospital.objects.get(id=id)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            full_name = form.cleaned_data.get('full_name')
+            op_number = form.cleaned_data.get('op_number')
+            age = form.cleaned_data.get('age')
+            height = form.cleaned_data.get('height')
+            bp_reading = form.cleaned_data.get('bp_reading')
+            glucose_level = form.cleaned_data.get('glucose_level')
+            weight_reading = form.cleaned_data.get('weight_reading')
+            temperature_reading = form.cleaned_data.get('temperature_reading')
+            symptoms = form.cleaned_data.get('symptoms')
+            prescribe_lab_test = form.cleaned_data.get('prescribe_lab_test')
+
+            med = MedicalPersonel.objects.get(user=request.user)
+            if med:
+                kmdb_no = med.kmdb_number
+                treatment = TreatPatient(full_name=full_name, op_number=op_number, age=age, height=height, 
+                                        bp_reading=bp_reading, glucose_level=glucose_level, weight_reading=weight_reading,
+                                        temperature_reading=temperature_reading, symptoms=symptoms,
+                                        prescribe_lab_test=prescribe_lab_test, kmdb_no=kmdb_no,
+                                        # reported_to= hospital.hospital_name
+                                        )
+                
+                treatment.save()
+                return redirect('/')
+            else:
+                return render(request, self.template_name, {'form': form})
+        else:
+            return render(request, self.template_name, {'form': form})
