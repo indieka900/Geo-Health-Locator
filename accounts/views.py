@@ -48,7 +48,7 @@ class MedicalPersonellSignupView(CreateView):
             medical_personnel.save()
             current_site = get_current_site(self.request)  
             mail_subject = 'Verify your account'  
-            message = render_to_string('acc_active_email.html', {  
+            message = render_to_string('acc_active.html', {  
                 'user': user,  
                 'domain': current_site.domain,  
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
