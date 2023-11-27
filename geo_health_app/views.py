@@ -14,10 +14,6 @@ class ReportDiseaseView(CreateView):
     form_class = ReportDiseaseForm
     template_name = "repo_disease.html"
 
-    # def get(self, request, *args, **kwargs):
-    #     form = self.form_class()
-    #     return render(request, self.template_name, {'form': form})
-
     def post(self, request,id, *args, **kwargs):
         form = self.form_class(request.POST)
         hospital = Hospital.objects.get(id=id)
@@ -44,7 +40,7 @@ class OrderAmbulanceView(CreateView):
     form_class = OrderAmbulanceForm
     template_name = "order_ambu.html"
 
-    def form_valid(self, form):
+    def form_valid(self, form,id):
         if form.is_valid():
             
             
