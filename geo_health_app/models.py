@@ -3,6 +3,7 @@ from accounts.models import User, Hospital
 from django.utils.translation import gettext as _
 
 class Disease(models.Model):
+    reported_to = models.CharField(_("Reported to"), max_length=50, default='Mwatate Sub-County Hospital')
     reporter = models.ManyToManyField(User)
     symptoms = models.TextField( _("Symptoms"), blank=True, null=True)
     latitude = models.FloatField(_("latitude"),
