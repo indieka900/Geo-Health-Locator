@@ -1,4 +1,4 @@
-from geo_health_app.models import Disease, Patient
+from geo_health_app.models import Disease, Patient, TreatPatient
 from django import forms
 
 class ReportDiseaseForm(forms.ModelForm):
@@ -20,4 +20,4 @@ class OrderAmbulanceForm(forms.ModelForm):
             self.fields[field].widget.attrs.update({'class': 'form-control pl-2'})
     class Meta:
         model = Patient
-        exclude = ["reporter","symptoms","reported_to"]
+        exclude = ["reporter"]

@@ -1,5 +1,7 @@
 from django.urls import path
-from accounts.views import MedicalPersonellSignupView, Medicalpersonellogin, CommunityMemberSignupView,activate, Communitymemberlogin
+from accounts.views import (MedicalPersonellSignupView, Medicalpersonellogin, 
+                            CommunityMemberSignupView,activate, 
+                            Communitymemberlogin)
 
 app_name = 'accounts'
 
