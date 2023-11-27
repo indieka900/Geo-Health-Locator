@@ -4,8 +4,11 @@ from django import forms
 class ReportDiseaseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # self.fields['latitude'].widget.attrs.update({'id': 'latitude'})
-        # self.fields['longitude'].widget.attrs.update({'id': 'longitude'})
+        self.fields['latitude'].widget.attrs['readonly'] = True
+        self.fields['longitude'].widget.attrs['readonly'] = True
+        self.fields['latitude'].widget.attrs['id'] = 'latitude'
+        self.fields['longitude'].widget.attrs['id'] = 'longitude'
+
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
     class Meta:

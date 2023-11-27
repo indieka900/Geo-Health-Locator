@@ -11,7 +11,6 @@ from accounts.sendMails import  send_password_reset_email
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
 from django.conf import settings
@@ -112,7 +111,7 @@ def Communitymemberlogin(request):
             if member.is_active:
                 login(request, member)
                 messages.success(request, 'Logged in succesfully')
-                return redirect('/')
+                return redirect('/hospitals/')
             else:
                 messages.error(request, 'Please activate your account')
                 return redirect('/') 
