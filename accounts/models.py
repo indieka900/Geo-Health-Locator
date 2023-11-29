@@ -164,15 +164,16 @@ class CommunityMember(Profile):
     
     def __str__(self):
         return self.user.username
-    
-class MedicalPersonel(Profile):
-    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False, unique=True)
 
-    def __str__(self):
-        return self.user.username
-    
 class Hospital(models.Model):
     hospital_name = models.CharField(_("hospital name"), max_length=100,
                                      blank=False, null=False, unique=True)
     latitude = models.FloatField(_("latitude"), blank=True, null=True)
     longitude = models.FloatField(_("longitude"), blank=True, null=True)
+    
+class MedicalPersonel(Profile):
+    kmdb_number = models.CharField(_("KMDB Number"), max_length=100, blank=False, null=False, unique=True)
+    hospital = models.ForeignKey(Hospital, on_delete=models.SET_NULL, blank=True, null=True)
+    def __str__(self):
+        return self.user.username
+    
