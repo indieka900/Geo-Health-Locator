@@ -3,6 +3,8 @@ from django.views.generic import CreateView,ListView
 from geo_health_app.forms import ReportDiseaseForm, OrderAmbulanceForm, TreatPatientForm
 from geo_health_app.models import Disease, Patient, TreatPatient
 from accounts.models import Hospital,MedicalPersonel
+from accounts.decorators import medical_personell_required
+from django.utils.decorators import method_decorator
 
 
 def home(request):
@@ -51,9 +53,13 @@ class OrderAmbulanceView(CreateView):
 
         return render(self.request, "accounts/sign_alert.html")
 
+@medical_personell_required
 def hospital_dash(request):
     
-    return render(request, 'hospital/index.html')
+    context = {
+        "nav":"dash"
+    }
+    return render(request, 'hospital/index.html',context)
     
 
 
@@ -61,7 +67,17 @@ class TreatPatientView(CreateView):
     model = TreatPatient
     form_class = TreatPatientForm
     template_name = "treatpatient.html"
-
+    
+    @method_decorator(medical_personell_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nav'] = 'treat_p'
+        return context
+    
+    
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         # hospital = Hospital.objects.get(id=id)
@@ -89,8 +105,8 @@ class TreatPatientView(CreateView):
                                         )
                 
                 treatment.save()
-                return redirect('/')
+                return redirect('/dashboard/')
             else:
-                return render(request, self.template_name, {'form': form})
+                return render(request, self.template_name, {'form': form,'nav':'treat_p'})
         else:
-            return render(request, self.template_name, {'form': form})
+            return render(request, self.template_name, {'form': form,'nav':'treat_p'})

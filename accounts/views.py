@@ -152,7 +152,10 @@ def Medicalpersonellogin(request):
             return redirect('/')
     return render(request,'login.html',{'medics':'medics'})
 
-
+#logout the logged in user   
+def log_out(request):
+    logout(request)
+    return redirect('/')
 
 def RequestPasswordReset(request):
     context = {
