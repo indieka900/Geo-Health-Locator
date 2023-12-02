@@ -51,8 +51,9 @@ class OrderAmbulanceView(CreateView):
 
         return render(self.request, "accounts/sign_alert.html")
 
-def hospital_dash(request,id):
-    hospital = Hospital.objects.get(id=id)
+def hospital_dash(request):
+    
+    return render(request, 'hospital/index.html')
     
 
 
