@@ -10,6 +10,7 @@ urlpatterns = [
     path('report-disease/<int:id>/', views.ReportDiseaseView.as_view(), name='report_disease'),
     path('dashboard/', views.hospital_dash, name='dashboard'),
     path('tests/', views.lab_test, name='tests'),
+    path('lists/', views.tests, name='lists'),
     path('treat-patient/', views.TreatPatientView.as_view(), name="treat_patient"),
     path('results/<int:id>/', views.result, name='results'),
     

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.views.generic import CreateView,ListView
 from geo_health_app.forms import ReportDiseaseForm, OrderAmbulanceForm, TreatPatientForm
 from geo_health_app.models import Disease, Patient, TreatPatient
+from django.db.models import Q
 from accounts.models import Hospital,MedicalPersonel
 from accounts.decorators import medical_personell_required
 from django.utils.decorators import method_decorator
@@ -60,14 +61,26 @@ def hospital_dash(request):
         "nav":"dash"
     }
     return render(request, 'hospital/index.html',context)
+
     
 @medical_personell_required
 def lab_test(request):
     user = request.user
     medic = MedicalPersonel.objects.get(user=user)
-    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name).order_by('lab_test_results')
+    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name,lab_test_results__isnull=True,)
     context= {
         "nav":"Lab",
+        'tests':tests,
+    }
+    return render(request, 'lab_dashboard.html',context)
+
+@medical_personell_required
+def tests(request):
+    user = request.user
+    medic = MedicalPersonel.objects.get(user=user)
+    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name,lab_test_results__isnull=False,)
+    context= {
+        "nav":"test",
         'tests':tests,
     }
     return render(request, 'lab_dashboard.html',context)
@@ -115,12 +128,10 @@ class TreatPatientView(CreateView):
 
             med = MedicalPersonel.objects.get(user=request.user)
             if med:
-                kmdb_no = med.kmdb_number
                 treatment = TreatPatient(full_name=full_name, op_number=op_number, age=age, height=height, 
                                         bp_reading=bp_reading, glucose_level=glucose_level, weight_reading=weight_reading,
                                         temperature_reading=temperature_reading, symptoms=symptoms,
-                                        prescribe_lab_test=prescribe_lab_test, kmdb_no=kmdb_no,
-                                        # reported_to= hospital.hospital_name
+                                        prescribe_lab_test=prescribe_lab_test
                                         )
                 
                 treatment.save()
