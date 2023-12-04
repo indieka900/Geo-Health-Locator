@@ -1,0 +1,106 @@
+{% extends 'hospital/base2.html' %}
+
+{% block content %}
+<div class="pcoded-content">
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Treat Patient</h5>
+                        <p class="m-b-0">Welcome to Mega Able</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard/"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Treatment</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Treat Patient</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hover table card start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Hover Table</h5>
+            <span>use class <code>table-hover</code> inside table element</span>
+            <div class="card-header-right">
+                <ul class="list-unstyled card-option">
+                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
+                    <li><i class="fa fa-window-maximize full-card"></i></li>
+                    <li><i class="fa fa-minus minimize-card"></i></li>
+                    <li><i class="fa fa-refresh reload-card"></i></li>
+                    <li><i class="fa fa-trash close-card"></i></li>
+                </ul>
+            </div>
+        </div>
+        <div class="card-block table-border-style">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Patient Name</th>
+                            <th>Op_number</th>
+                            <th>Height</th>
+                            <th>BP reading</th>
+                            <th>Glucose level</th>
+                            <th>Weight</th>
+                            {% if not doc %}
+                              <th>temp</th>
+                            {% endif %}
+                            
+                            <th>Test</th>
+                            <th>Results</th>
+                            {% if doc %}
+                              <th>Prescribe Drug(s)</th>
+                            {% endif %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in tests %}
+                        <tr>
+                            <th scope="row">{{forloop.counter}}</th>
+                            <td>{{test.full_name}}</td>
+                            <td>{{test.ip_op_number}}</td>
+                            <td>{{test.height}}</td>
+                            <td>{{test.bp_reading}}</td>
+                            <td>{{test.glucose_level}}</td>
+                            <td>{{test.weight_reading}}</td>
+                            {% if not doc %}
+                            <td>{{test.temperature_reading}}</td>
+                            {% endif %}
+                            <td>{{test.prescribe_lab_test}}</td>
+                            <td>
+                                {% if test.lab_test_results%}
+                                {{test.lab_test_results}}
+                                {% else %}
+                                <a href="{% url 'mainapp:results' test.id %}">Add Lab Result</a>
+                                {% endif %}
+                            </td>
+                            {% if doc %}
+                            <td>
+                                {% if test.drug_prescription%}
+                                {{test.drug_prescription}}
+                                {% else %}
+                                <a href="{% url 'mainapp:prescribe' test.id %}">Prescribe Drug</a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

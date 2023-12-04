@@ -140,7 +140,7 @@ def Medicalpersonellogin(request):
                 if user.is_active:
                     login(request, user)
                     messages.success(request, 'Logged in successfully')
-                    return redirect('/')
+                    return redirect('/dashboard/')
                 else:
                     messages.error(request, 'Please activate your account')
                     return redirect('/')
@@ -152,7 +152,10 @@ def Medicalpersonellogin(request):
             return redirect('/')
     return render(request,'login.html',{'medics':'medics'})
 
-
+#logout the logged in user   
+def log_out(request):
+    logout(request)
+    return redirect('/')
 
 def RequestPasswordReset(request):
     context = {

@@ -33,7 +33,7 @@ class TreatPatientForm(forms.ModelForm):
 
     class Meta:
         model = TreatPatient
-        fields = ("full_name", "op_number", "age", "height",
+        fields = ("full_name", "ip_op_number", "age", "height",
                     "bp_reading", "glucose_level", "weight_reading",
                     "temperature_reading", "symptoms", "prescribe_lab_test" 
                     # "lab_test_results", "drug_prescription", "treatment_status"

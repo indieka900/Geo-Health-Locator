@@ -1,13 +1,46 @@
-{% extends 'base.html' %}
+{% extends 'hospital/base2.html' %}
 
 {% block content %}
-<div class="row justify-content-center py-5">
-    <div class="col-6">
-        <form method="post" action="">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-primary mt-2">Treatment</button>
-        </form>
+<div class="pcoded-content" >
+    <!-- Page-header start -->
+    <div class="page-header">
+        <div class="page-block">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <div class="page-header-title">
+                        <h5 class="m-b-10">Treat Patient</h5>
+                        <p class="m-b-0">Welcome to Mega Able</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="breadcrumb-title">
+                        <li class="breadcrumb-item">
+                            <a href="/dashboard/"> <i class="fa fa-home"></i> </a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Treatment</a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="#!">Treat Patient</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- Input Alignment card start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Input Alignment</h5>
+            <span>Add class of <code>.form-control</code> with
+                <code>&lt;input&gt;</code> tag</span>
+        </div>
+        <div class="card-block">
+            <form method="post" action="">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+        </div>
+    </div>
+    <!-- Input Alignment card end -->
 </div>
 {% endblock %}
