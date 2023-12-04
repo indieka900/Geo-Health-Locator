@@ -53,9 +53,15 @@
                             <th>BP reading</th>
                             <th>Glucose level</th>
                             <th>Weight</th>
-                            <th>temp</th>
+                            {% if not doc %}
+                              <th>temp</th>
+                            {% endif %}
+                            
                             <th>Test</th>
                             <th>Results</th>
+                            {% if doc %}
+                              <th>Prescribe Drug(s)</th>
+                            {% endif %}
                         </tr>
                     </thead>
                     <tbody>
@@ -68,15 +74,26 @@
                             <td>{{test.bp_reading}}</td>
                             <td>{{test.glucose_level}}</td>
                             <td>{{test.weight_reading}}</td>
+                            {% if not doc %}
                             <td>{{test.temperature_reading}}</td>
+                            {% endif %}
                             <td>{{test.prescribe_lab_test}}</td>
                             <td>
                                 {% if test.lab_test_results%}
                                 {{test.lab_test_results}}
                                 {% else %}
-                                <a href="/results/{{test.id}}">Add Lab Result</a>
+                                <a href="{% url 'mainapp:results' test.id %}">Add Lab Result</a>
                                 {% endif %}
                             </td>
+                            {% if doc %}
+                            <td>
+                                {% if test.drug_prescription%}
+                                {{test.drug_prescription}}
+                                {% else %}
+                                <a href="{% url 'mainapp:prescribe' test.id %}">Prescribe Drug</a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </tbody>

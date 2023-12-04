@@ -14,5 +14,6 @@ urlpatterns = [
     path('diseases/', views.reported_diseases, name='diseases'),
     path('treat-patient/', views.TreatPatientView.as_view(), name="treat_patient"),
     path('results/<int:id>/', views.result, name='results'),
+    path('prescribe/<int:id>/', views.result_D, name='prescribe'),
     
 ]

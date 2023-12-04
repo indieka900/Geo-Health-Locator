@@ -46,10 +46,6 @@ class OrderAmbulanceView(CreateView):
     def form_valid(self, form,id):
         if form.is_valid():
             
-            
-            # user = form.save(commit=False)
-            # user.role = "customer"
-            # user.save()
             pass
 
         return render(self.request, "accounts/sign_alert.html")
@@ -91,6 +87,7 @@ def tests(request):
     context= {
         "nav":"test",
         'tests':tests,
+        'doc':'doc',
     }
     return render(request, 'lab_dashboard.html',context)
 
@@ -101,7 +98,16 @@ def result(request, id):
         treat.lab_test_results =results
         treat.save()
         return redirect('/tests/')
-    return render(request, 'result.html')
+    return render(request, 'result.html',{'action':'lab','id':id})
+
+def result_D(request, id):
+    treat = TreatPatient.objects.get(id=id)
+    if request.method == 'POST':
+        drugs = request.POST.get('drugs')
+        treat.drug_prescription = drugs
+        treat.save()
+        return redirect('/tests/')
+    return render(request, 'result.html', {'action':'drug','id':id})
 
 def reported_diseases(request):
     user = request.user
