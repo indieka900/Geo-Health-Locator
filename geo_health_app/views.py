@@ -65,12 +65,21 @@ def hospital_dash(request):
 def lab_test(request):
     user = request.user
     medic = MedicalPersonel.objects.get(user=user)
-    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name)
+    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name).order_by('lab_test_results')
     context= {
         "nav":"Lab",
         'tests':tests,
     }
     return render(request, 'lab_dashboard.html',context)
+
+def result(request, id):
+    treat = TreatPatient.objects.get(id=id)
+    if request.method == 'POST':
+        results = request.POST.get('results')
+        treat.lab_test_results =results
+        treat.save()
+        return redirect('/tests/')
+    return render(request, 'result.html')
     
 
 class TreatPatientView(CreateView):

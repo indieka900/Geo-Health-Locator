@@ -56,7 +56,6 @@
                             <th>temp</th>
                             <th>Test</th>
                             <th>Results</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -75,12 +74,8 @@
                                 {% if test.lab_test_results%}
                                 {{test.lab_test_results}}
                                 {% else %}
-                                <p>Not yet tested</p>
+                                <a href="/results/{{test.id}}">Add Lab Result</a>
                                 {% endif %}
-                            </td>
-                            <td>
-                                
-                                <a href="#">Add Lab Result</a>
                             </td>
                         </tr>
                         {% endfor %}
