@@ -109,9 +109,6 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="/dashboard/">
-                            <img class="img-fluid" src="assets/images/logo.png" alt="Theme-Logo" />
-                        </a>
                         <a class="mobile-options waves-effect waves-light">
                             <i class="ti-more"></i>
                         </a>
@@ -119,19 +116,8 @@
 
                     <div class="navbar-container container-fluid">
                         <ul class="nav-left">
-                            <li>
-                                <div class="sidebar_toggle"><a href="javascript:void(0)"><i class="ti-menu"></i></a>
-                                </div>
-                            </li>
-                            <li class="header-search">
-                                <div class="main-search morphsearch-search">
-                                    <div class="input-group">
-                                        <span class="input-group-addon search-close"><i class="ti-close"></i></span>
-                                        <input type="text" class="form-control">
-                                        <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
-                                    </div>
-                                </div>
-                            </li>
+                            
+                            
                             <li>
                                 <a href="#!" onclick="javascript:toggleFullScreen()" class="waves-effect waves-light">
                                     <i class="ti-fullscreen"></i>
@@ -161,35 +147,12 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src="assets/images/avatar-4.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Joseph William</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src="assets/images/avatar-3.jpg" alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Sara Soudein</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
+                                    
                                 </ul>
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light">
-                                    <img src="/media/{{ user.profile.profile_picture }}" class="img-radius" alt="{{ user.profile.profile_picture.url }}">
+                                    <img src="{% static 'assets/images/avatar-4.jpg' %}" class="img-radius" alt="{{ user.profile.profile_picture.url }}">
                                     <span>{{ user.username }}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
@@ -233,10 +196,10 @@
                         <div class="pcoded-inner-navbar main-menu">
                             <div class="">
                                 <div class="main-menu-header">
-                                    <img class="img-80 img-radius" src="assets/images/avatar-4.jpg"
+                                    <img class="img-80 img-radius" src="{% static 'assets/images/avatar-4.jpg' %}"
                                         alt="User-Profile-Image">
                                     <div class="user-details">
-                                        <span id="more-details">John Doe<i class="fa fa-caret-down"></i></span>
+                                        <span id="more-details">{{user.first_name}}  {{user.last_name}}<i class="fa fa-caret-down"></i></span>
                                     </div>
                                 </div>
 
@@ -291,6 +254,13 @@
                                     <a href="/lists/" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                         <span class="pcoded-mtext" data-i18n="nav.form-components.main">Test Results</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="{% if nav == 'report' %} active {% endif %}">
+                                    <a href="/diseases/" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Reported Diseases</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>

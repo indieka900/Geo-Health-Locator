@@ -56,9 +56,18 @@ class OrderAmbulanceView(CreateView):
 
 @medical_personell_required
 def hospital_dash(request):
+    user = request.user
+    medic = MedicalPersonel.objects.get(user=user)
+    doctors = MedicalPersonel.objects.filter(hospital=medic.hospital)
+    diseases = Disease.objects.filter(reported_to = medic.hospital.hospital_name)
+    patients = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name).order_by('-reported_at')
+    disease = len(diseases)
     
     context = {
-        "nav":"dash"
+        "nav":"dash",
+        "doctors":doctors,
+        "patients":patients,
+        "dis":disease,
     }
     return render(request, 'hospital/index.html',context)
 
@@ -93,6 +102,16 @@ def result(request, id):
         treat.save()
         return redirect('/tests/')
     return render(request, 'result.html')
+
+def reported_diseases(request):
+    user = request.user
+    medic = MedicalPersonel.objects.get(user=user)
+    diseases = Disease.objects.filter(reported_to = medic.hospital.hospital_name)
+    context = {
+        'diseases':diseases,
+        'nav' : 'report'
+    }
+    return render(request, 'diseases.html', context)
     
 
 class TreatPatientView(CreateView):
