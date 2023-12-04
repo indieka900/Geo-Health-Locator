@@ -25,6 +25,7 @@ class TreatPatient(Patient):
                                 ("Treated", "Treated"),
                                 ("In Progress", "In Progress"))
     op_number = models.IntegerField(_("OP Number"), blank=False, null=False)
+    hospital = models.ForeignKey(Hospital, on_delete=models.CASCADE, null=True, blank=True)
     height = models.FloatField(_("height"), max_length=500, blank=False, null=False)
     bp_reading = models.FloatField(_("BP Reading"), max_length=1000, blank=False, null=False)
     glucose_level = models.FloatField(_("glucose level"), max_length=1000, blank=False, null=False)

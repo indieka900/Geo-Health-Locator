@@ -26,8 +26,14 @@
             </div>
         </div>
     </div>
-    <div class="pcoded-content " style="margin-top: 10px;">
-        <div class="col-6 py-5 ">
+    <!-- Input Alignment card start -->
+    <div class="card">
+        <div class="card-header">
+            <h5>Input Alignment</h5>
+            <span>Add class of <code>.form-control</code> with
+                <code>&lt;input&gt;</code> tag</span>
+        </div>
+        <div class="card-block">
             <form method="post" action="">
                 {% csrf_token %}
                 {{form.as_p}}
@@ -35,5 +41,6 @@
             </form>
         </div>
     </div>
+    <!-- Input Alignment card end -->
 </div>
 {% endblock %}

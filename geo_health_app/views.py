@@ -61,7 +61,17 @@ def hospital_dash(request):
     }
     return render(request, 'hospital/index.html',context)
     
-
+@medical_personell_required
+def lab_test(request):
+    user = request.user
+    medic = MedicalPersonel.objects.get(user=user)
+    tests = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name)
+    context= {
+        "nav":"Lab",
+        'tests':tests,
+    }
+    return render(request, 'lab_dashboard.html',context)
+    
 
 class TreatPatientView(CreateView):
     model = TreatPatient
