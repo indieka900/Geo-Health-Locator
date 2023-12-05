@@ -1,5 +1,5 @@
 from django import forms
-from .models import User, MedicalPersonel  # Import the required models
+from .models import User, MedicalPersonel, Hospital  # Import the required models
 
 class UserSignUpForm(forms.ModelForm):
     email = forms.EmailField(max_length=156, required=True)
@@ -48,11 +48,19 @@ class MedicalPersonnelSignUpForm(UserSignUpForm):
         label="KMDB Number",
         max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter KMDB Number','class':'form-control'}),
+        widget=forms.TextInput(attrs={'placeholder': 'Enter KMDB Number', 'class': 'form-control'}),
     )
+
+    hospital = forms.ModelChoiceField(
+        label="Hospital",
+        queryset=Hospital.objects.all(),
+        required=False,
+        widget=forms.Select(attrs={'class': 'form-control'}),
+    )
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)  # Set the default role to "Medical Personnel"
-        self.fields['kmdb_number'].required = True 
+        self.fields['kmdb_number'].required = True
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control'})
 
@@ -62,7 +70,6 @@ class MedicalPersonnelSignUpForm(UserSignUpForm):
                   "gender", "phone", "email", "county", "sub_county", "ward", "location",
                   "sub_location", "village")
 
-        
     def save(self, commit=True):
         user = super(UserSignUpForm, self).save(commit=False)
         user.is_active = False
@@ -71,8 +78,10 @@ class MedicalPersonnelSignUpForm(UserSignUpForm):
             user.save()
 
         kmdb_number = self.cleaned_data.get('kmdb_number')
-        medical_personnel = MedicalPersonel(user=user, kmdb_number=kmdb_number)
+        hospital = self.cleaned_data.get('hospital')
+        medical_personnel = MedicalPersonel(user=user, kmdb_number=kmdb_number, hospital=hospital)
         if commit:
             medical_personnel.save()
 
         return user
+

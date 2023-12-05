@@ -11,7 +11,6 @@ from accounts.sendMails import  send_password_reset_email
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views.generic import CreateView
 from django.conf import settings
@@ -48,7 +47,7 @@ class MedicalPersonellSignupView(CreateView):
             medical_personnel.save()
             current_site = get_current_site(self.request)  
             mail_subject = 'Verify your account'  
-            message = render_to_string('acc_active_email.html', {  
+            message = render_to_string('acc_active.html', {  
                 'user': user,  
                 'domain': current_site.domain,  
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),  
@@ -96,8 +95,8 @@ class CommunityMemberSignupView(CreateView):
 
 def Communitymemberlogin(request):
     
-    # if request.user.is_authenticated:
-    #     return redirect('/')
+    if request.user.is_authenticated and request.user.role == 'Community Member':
+        return redirect('/hospitals/')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -112,7 +111,7 @@ def Communitymemberlogin(request):
             if member.is_active:
                 login(request, member)
                 messages.success(request, 'Logged in succesfully')
-                return redirect('/')
+                return redirect('/hospitals/')
             else:
                 messages.error(request, 'Please activate your account')
                 return redirect('/') 
@@ -124,8 +123,8 @@ def Communitymemberlogin(request):
 
 def Medicalpersonellogin(request):
     
-    # if request.user.is_authenticated:
-    #     return redirect('/')
+    if request.user.is_authenticated and request.user.role == 'Medical Personel':
+        return redirect('/dashboard/')
     if request.method == 'POST':
         kmdb_number = request.POST.get('kmdb_number')
         email = request.POST.get('email')
@@ -141,7 +140,7 @@ def Medicalpersonellogin(request):
                 if user.is_active:
                     login(request, user)
                     messages.success(request, 'Logged in successfully')
-                    return redirect('/')
+                    return redirect('/dashboard/')
                 else:
                     messages.error(request, 'Please activate your account')
                     return redirect('/')
@@ -153,7 +152,10 @@ def Medicalpersonellogin(request):
             return redirect('/')
     return render(request,'login.html',{'medics':'medics'})
 
-
+#logout the logged in user   
+def log_out(request):
+    logout(request)
+    return redirect('/')
 
 def RequestPasswordReset(request):
     context = {

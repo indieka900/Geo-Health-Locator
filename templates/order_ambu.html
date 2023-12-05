@@ -7,6 +7,27 @@
     <form method="post" action="">
         {% csrf_token %}
         {{form.as_p}}
+        <button type="button" class="btn btn-success mt-2" id="getLocationBtn">Get Location</button>
         <button type="submit" class="btn btn-primary mt-2">Register</button>
+        <br><br>
     </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#getLocationBtn').click(function(event) {
+            event.preventDefault(); // Prevent default form submission
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        });
+        
+        function showPosition(position) {
+            $('#latitude').val(position.coords.latitude);
+            $('#longitude').val(position.coords.longitude);
+        }
+    
+    })
+    </script>
 {% endblock %}
