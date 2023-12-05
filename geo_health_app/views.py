@@ -42,11 +42,20 @@ class OrderAmbulanceView(CreateView):
     model = Patient
     form_class = OrderAmbulanceForm
     template_name = "order_ambu.html"
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['type_l'] = 'Ambulance'
+        return initial
 
-    def form_valid(self, form,id):
+    def form_valid(self, form):
+        latitude = form.cleaned_data.get('latitude')
+        longitude = form.cleaned_data.get('longitude')
         if form.is_valid():
-            
-            pass
+            form.latitude = latitude
+            form.longitude = longitude
+            form.save()
+            return redirect('/hospitals/')
 
         return render(self.request, "accounts/sign_alert.html")
 

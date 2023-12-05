@@ -14,7 +14,13 @@ class Disease(models.Model):
 
 
 class Patient(Disease):
+    type_choices = (
+            ("Ambulance", "Ambulance"),
+            ("Disease", "Disease"),
+        )
+    type_l = models.CharField(_("Submision type"), max_length=20, choices=type_choices, default='Disease')
     full_name = models.CharField(_("full name"), max_length=100,unique=True)
+    
     age = models.IntegerField(_("age"), blank=True, null=True)
     health_situation = models.TextField(_("health situation"), max_length=1000,
                                         blank=True, null=True)
