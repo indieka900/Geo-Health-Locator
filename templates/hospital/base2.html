@@ -157,24 +157,10 @@
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
-                                    <li class="waves-effect waves-light">
-                                        <a href="#!">
-                                            <i class="ti-settings"></i> Settings
-                                        </a>
-                                    </li>
+                                   
                                     <li class="waves-effect waves-light">
                                         <a href="user-profile.html">
                                             <i class="ti-user"></i> Profile
-                                        </a>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <a href="email-inbox.html">
-                                            <i class="ti-email"></i> My Messages
-                                        </a>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <a href="auth-lock-screen.html">
-                                            <i class="ti-lock"></i> Lock Screen
                                         </a>
                                     </li>
                                     <li class="waves-effect waves-light">
@@ -215,16 +201,16 @@
                                 </div>
                             </div>
                             <div class="p-15 p-b-0">
-                                <form class="form-material">
+                                <!-- <form class="form-material">
                                     <div class="form-group form-primary">
                                         <input type="text" name="footer-email" class="form-control" required="">
                                         <span class="form-bar"></span>
                                         <label class="float-label"><i class="fa fa-search m-r-10"></i>Search
                                             Friend</label>
                                     </div>
-                                </form>
+                                </form> -->
                             </div>
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Home</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="{% if nav == 'dash' %} active {% endif %}">
                                     <a href="/dashboard/" class="waves-effect waves-dark">
@@ -234,7 +220,7 @@
                                     </a>
                                 </li>
                             </ul>
-                            <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Forms &amp; Tables</div>
+                            <div class="pcoded-navigation-label" data-i18n="nav.category.forms">Work to be Done</div>
                             <ul class="pcoded-item pcoded-left-item">
                                 <li class="{% if nav == 'treat_p' %} active {% endif %}">
                                     <a href="/treat-patient/" class="waves-effect waves-dark">
@@ -261,6 +247,13 @@
                                     <a href="/diseases/" class="waves-effect waves-dark">
                                         <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
                                         <span class="pcoded-mtext" data-i18n="nav.form-components.main">Reported Diseases</span>
+                                        <span class="pcoded-mcaret"></span>
+                                    </a>
+                                </li>
+                                <li class="{% if nav == 'report' %} active {% endif %}">
+                                    <a href="/diseases/" class="waves-effect waves-dark">
+                                        <span class="pcoded-micon"><i class="ti-layers"></i><b>FC</b></span>
+                                        <span class="pcoded-mtext" data-i18n="nav.form-components.main">Orderd Ambulances</span>
                                         <span class="pcoded-mcaret"></span>
                                     </a>
                                 </li>
