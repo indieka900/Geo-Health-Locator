@@ -19,11 +19,16 @@ class ReportDiseaseForm(forms.ModelForm):
 class OrderAmbulanceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['latitude'].widget.attrs['readonly'] = True
+        self.fields['longitude'].widget.attrs['readonly'] = True
+        self.fields['type_l'].widget = forms.HiddenInput()
+        self.fields['latitude'].widget.attrs['id'] = 'latitude'
+        self.fields['longitude'].widget.attrs['id'] = 'longitude'
         for field in self.fields:
             self.fields[field].widget.attrs.update({'class': 'form-control pl-2'})
     class Meta:
         model = Patient
-        exclude = ["reporter"]
+        exclude = ["reporter","reported_to"]
 
 class TreatPatientForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

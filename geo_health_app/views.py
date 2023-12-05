@@ -42,11 +42,20 @@ class OrderAmbulanceView(CreateView):
     model = Patient
     form_class = OrderAmbulanceForm
     template_name = "order_ambu.html"
+    
+    def get_initial(self):
+        initial = super().get_initial()
+        initial['type_l'] = 'Ambulance'
+        return initial
 
-    def form_valid(self, form,id):
+    def form_valid(self, form):
+        latitude = form.cleaned_data.get('latitude')
+        longitude = form.cleaned_data.get('longitude')
         if form.is_valid():
-            
-            pass
+            form.latitude = latitude
+            form.longitude = longitude
+            form.save()
+            return redirect('/hospitals/')
 
         return render(self.request, "accounts/sign_alert.html")
 
@@ -56,12 +65,14 @@ def hospital_dash(request):
     medic = MedicalPersonel.objects.get(user=user)
     doctors = MedicalPersonel.objects.filter(hospital=medic.hospital)
     diseases = Disease.objects.filter(reported_to = medic.hospital.hospital_name)
+    ambu = Patient.objects.filter(reported_to = medic.hospital.hospital_name, type_l='Ambulance')
     patients = TreatPatient.objects.filter(reported_to = medic.hospital.hospital_name).order_by('-reported_at')
     disease = len(diseases)
     
     context = {
         "nav":"dash",
         "doctors":doctors,
+        "ambu":ambu,
         "patients":patients,
         "dis":disease,
     }
@@ -112,10 +123,20 @@ def result_D(request, id):
 def reported_diseases(request):
     user = request.user
     medic = MedicalPersonel.objects.get(user=user)
-    diseases = Disease.objects.filter(reported_to = medic.hospital.hospital_name)
+    diseases = Patient.objects.filter(reported_to = medic.hospital.hospital_name, type_l='Disease').order_by('-reported_at')
     context = {
         'diseases':diseases,
         'nav' : 'report'
+    }
+    return render(request, 'diseases.html', context)
+
+def ambulances(request):
+    user = request.user
+    medic = MedicalPersonel.objects.get(user=user)
+    diseases = Patient.objects.filter(reported_to = medic.hospital.hospital_name, type_l='Ambulance').order_by('-reported_at')
+    context = {
+        'diseases':diseases,
+        'nav' : 'ambu'
     }
     return render(request, 'diseases.html', context)
     

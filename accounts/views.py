@@ -95,8 +95,8 @@ class CommunityMemberSignupView(CreateView):
 
 def Communitymemberlogin(request):
     
-    # if request.user.is_authenticated:
-    #     return redirect('/')
+    if request.user.is_authenticated and request.user.role == 'Community Member':
+        return redirect('/hospitals/')
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
@@ -123,8 +123,8 @@ def Communitymemberlogin(request):
 
 def Medicalpersonellogin(request):
     
-    # if request.user.is_authenticated:
-    #     return redirect('/')
+    if request.user.is_authenticated and request.user.role == 'Medical Personel':
+        return redirect('/dashboard/')
     if request.method == 'POST':
         kmdb_number = request.POST.get('kmdb_number')
         email = request.POST.get('email')
