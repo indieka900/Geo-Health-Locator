@@ -6,6 +6,7 @@ from django.db.models import Q
 from accounts.models import Hospital,MedicalPersonel
 from accounts.decorators import medical_personell_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -38,6 +39,7 @@ class HospitalListView(ListView):
     template_name = "choose_hospital.html"
     context_object_name = 'hospitals'
 
+@login_required(login_url='/')
 class OrderAmbulanceView(CreateView):
     model = Patient
     form_class = OrderAmbulanceForm
@@ -102,6 +104,7 @@ def tests(request):
     }
     return render(request, 'lab_dashboard.html',context)
 
+@medical_personell_required
 def result(request, id):
     treat = TreatPatient.objects.get(id=id)
     if request.method == 'POST':
@@ -111,6 +114,7 @@ def result(request, id):
         return redirect('/tests/')
     return render(request, 'result.html',{'action':'lab','id':id})
 
+@medical_personell_required
 def result_D(request, id):
     treat = TreatPatient.objects.get(id=id)
     if request.method == 'POST':
@@ -120,6 +124,7 @@ def result_D(request, id):
         return redirect('/tests/')
     return render(request, 'result.html', {'action':'drug','id':id})
 
+@medical_personell_required
 def reported_diseases(request):
     user = request.user
     medic = MedicalPersonel.objects.get(user=user)
@@ -130,6 +135,7 @@ def reported_diseases(request):
     }
     return render(request, 'diseases.html', context)
 
+@medical_personell_required
 def ambulances(request):
     user = request.user
     medic = MedicalPersonel.objects.get(user=user)
