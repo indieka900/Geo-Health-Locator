@@ -39,7 +39,6 @@ class HospitalListView(ListView):
     template_name = "choose_hospital.html"
     context_object_name = 'hospitals'
 
-@login_required(login_url='/')
 class OrderAmbulanceView(CreateView):
     model = Patient
     form_class = OrderAmbulanceForm
